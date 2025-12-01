@@ -14,9 +14,9 @@ import java.util.Scanner;
 public class ProxyServer {
 
     @Inject
-    private QueryFactoryImpl queryFactory;
+    private QueryFactory queryFactory;
     @Inject
-    private BlacklistServiceImpl blacklistService;
+    private BlacklistService blacklistService;
 
 
     private final HttpClient client = HttpClient.newHttpClient();
