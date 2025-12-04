@@ -1,11 +1,13 @@
 package blacklist;
 
+import domaine.Query;
+
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Properties;
 import java.util.Set;
-
-import domaine.Query;
 
 public class BlacklistServiceImpl implements BlacklistService {
 
@@ -23,7 +25,14 @@ public class BlacklistServiceImpl implements BlacklistService {
 
     @Override
     public boolean check(Query query) {
-        return !blacklistedDomains.stream().anyMatch(d -> query.getUrl().contains(d));
+        try {
+            URL url = new URL(query.getUrl());
+            String hostname = url.getHost();
+            return blacklistedDomains.stream().noneMatch(d -> hostname.equals(d));
+        } catch (MalformedURLException e) {
+            return false;
+        }
     }
+
 
 }
